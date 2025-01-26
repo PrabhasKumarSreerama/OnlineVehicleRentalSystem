@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AuthContext, AuthProvider } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 
 function HeaderBar() {

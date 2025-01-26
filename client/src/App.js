@@ -13,6 +13,7 @@ import UpdateVehicle from "./pages/UpdateVehicle";
 import UserList from "./components/UserList";
 import TokenExpiredModal from "./components/TokenExpiredModal ";
 import ReviewForm from "./components/ReviewForm";
+import ReviewPage from "./pages/ReviewPage";
 
 const App = () => {
   return (
@@ -29,7 +30,8 @@ const App = () => {
           <Route path="/admin/addvehicle" element={<AddVehicle />} />
           <Route path="/admin/updatevehicle/:id" element={<UpdateVehicle />} />
           <Route path="/admin/users" element={<UserList />} />
-          <Route path="/review/:id" element={<ReviewForm />} />
+          <Route path="/addreview/:id" element={<ReviewForm />} />
+          <Route path="/vehicles/:vehicleId/reviews" element={<ReviewPage />} />
         </Routes>
       </AuthProvider>
     </Router>

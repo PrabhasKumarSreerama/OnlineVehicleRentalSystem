@@ -69,7 +69,7 @@ export const addReview = async (reviewData, token) => {
 };
 
 export const fetchReviewsByVehicleId = async (vehicleId) => {
-  return await axios.get(`${API_URL}/vehicles/${vehicleId}/reviews`);
+  return await axios.get(`${API_URL}/reviews/${vehicleId}`);
 };
 
 export const processPayment = async (paymentData, token) => {

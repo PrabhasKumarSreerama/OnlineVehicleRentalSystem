@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { createBooking, fetchUserById } from "../api";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const BookingForm = ({ vehicleId }) => {
   const [startDate, setStartDate] = useState("");
@@ -11,6 +12,7 @@ const BookingForm = ({ vehicleId }) => {
   const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
   const token = localStorage.getItem("token");
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate(); // For navigation
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -26,7 +28,7 @@ const BookingForm = ({ vehicleId }) => {
     };
 
     fetchDetails();
-  }, [user?.id]);
+  }, [user?.id, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +50,6 @@ const BookingForm = ({ vehicleId }) => {
     };
 
     console.log("bookingData", bookingData, curUser);
-    
 
     setIsSubmitting(true); // Disable button during submission
     try {
@@ -64,15 +65,25 @@ const BookingForm = ({ vehicleId }) => {
     }
   };
 
-  // Get today's date in the format required for the `min` attribute
   const today = new Date().toISOString().split("T")[0];
 
   if (!curUser) {
-    return <p className="text-center text-4xl my-auto text-gray-800">Loading...</p>;
+    return (
+      <p className="text-center text-4xl my-auto text-gray-800">Loading...</p>
+    );
   }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto">
+      <div className="mb-4">
+        <button
+          onClick={() => navigate("/")}
+          className="bg-gray-500 hover:bg-gray-600 text-black rounded p-2 px-4"
+        >
+        <span className="text-xl font-extrabold">&#8592;</span> Go Back
+        </button>
+      </div>
+
       <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4">
         Book Your Vehicle
       </h2>
@@ -90,7 +101,7 @@ const BookingForm = ({ vehicleId }) => {
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             required
-            min={today} // Disable past dates
+            min={today}
             className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -104,7 +115,7 @@ const BookingForm = ({ vehicleId }) => {
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             required
-            min={startDate || today} // End date must be after start date
+            min={startDate || today}
             className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>

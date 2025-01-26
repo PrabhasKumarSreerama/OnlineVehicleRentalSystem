@@ -21,7 +21,7 @@ const UserDashboard = () => {
     if (user?.role === "user") {
       getBookings();
     }
-  }, [user]);
+  }, [user, token]);
 
   if (!token) {
     return (
@@ -85,7 +85,7 @@ const UserDashboard = () => {
                           Status: {booking.status}
                         </p>
                         <button
-                          onClick={() => navigate(`/review/${booking.vehicle._id}`)}
+                          onClick={() => navigate(`/review/${booking._id}`)}
                           className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
                         >
                           Add / See Review
