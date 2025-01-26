@@ -9,12 +9,16 @@ import Vehicle from "./pages/Vehicle";
 import Admin from "./pages/Admin";
 import UserDashboard from "./components/UserDashboard";
 import AddVehicle from "./pages/AddVehicle";
+import UpdateVehicle from "./pages/UpdateVehicle";
+import UserList from "./components/UserList";
+import TokenExpiredModal from "./components/TokenExpiredModal ";
+import ReviewForm from "./components/ReviewForm";
 
 const App = () => {
-
   return (
     <Router>
       <AuthProvider>
+        <TokenExpiredModal />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -23,6 +27,9 @@ const App = () => {
           <Route path="/admin" element={<Admin />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/admin/addvehicle" element={<AddVehicle />} />
+          <Route path="/admin/updatevehicle/:id" element={<UpdateVehicle />} />
+          <Route path="/admin/users" element={<UserList />} />
+          <Route path="/review/:id" element={<ReviewForm />} />
         </Routes>
       </AuthProvider>
     </Router>

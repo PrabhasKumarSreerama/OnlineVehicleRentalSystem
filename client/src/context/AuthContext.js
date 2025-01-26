@@ -6,14 +6,24 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
 
-  // Load user data from localStorage when the component mounts
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+    const decoded = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    return decoded.exp < currentTime;
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token && !isTokenExpired(token)) {
       const decoded = jwtDecode(token);
       setUser({ id: decoded.id, role: decoded.role });
+    } else {
+      localStorage.removeItem("token");
+      setIsModalVisible(true);
     }
   }, []);
 
@@ -24,13 +34,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token"); // Remove user data from localStorage
+    localStorage.removeItem("token");
     setUser(null);
     navigate("/");
   };
 
+  const handleLoginClick = () => {
+    navigate("/login");
+    setIsModalVisible(false);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isModalVisible, handleLoginClick }}>
       {children}
     </AuthContext.Provider>
   );

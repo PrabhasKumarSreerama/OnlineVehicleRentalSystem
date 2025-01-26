@@ -43,7 +43,7 @@ const Vehicle = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="container grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg lg:ml-auto shadow-md p-6">
           <h1 className="text-3xl font-bold mb-4 text-blue-600">
             {vehicle.make} {vehicle.model}
           </h1>
@@ -60,7 +60,6 @@ const Vehicle = () => {
               <span className="font-semibold">Price per day:</span> $
               {vehicle.pricePerDay}
             </p>
-            {/* Vehicle Description */}
             <p className="text-lg">
               <span className="font-semibold">Description:</span>{" "}
               {vehicle.description || "No description available."}

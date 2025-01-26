@@ -29,7 +29,7 @@ const Admin = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/admin/users"
                   className="hover:underline hover:text-blue-200 transition"
                 >
                   Users
@@ -78,7 +78,6 @@ const Admin = () => {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="bg-gray-800 text-white py-4">
         <div className="container mx-auto text-center">
           <p className="text-sm">

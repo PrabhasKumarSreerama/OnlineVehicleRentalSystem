@@ -15,6 +15,7 @@ const Register = () => {
       setSuccess("Registration successful! You can now log in.");
       setError("");
     } catch (err) {
+      console.log("err", err);
       setError("Registration failed. Please try again.");
       setSuccess("");
     }

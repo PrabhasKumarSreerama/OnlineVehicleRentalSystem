@@ -1,9 +1,19 @@
 import React, { useContext } from "react";
 import { AuthContext, AuthProvider } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function HeaderBar() {
+  const location = useLocation();
+  const { pathname } = location;
   const { user, logout } = useContext(AuthContext);
+
+  const destination =
+    user?.role === "admin" ? "/admin" : pathname === "/" ? "/dashboard" : "/";
+
+  const buttonText =
+    user?.role === "user" && pathname === "/dashboard"
+      ? "Book New Vehicle"
+      : "Dashboard";
 
   return (
     <div className="bg-blue-600 text-white py-4 shadow-lg">
@@ -15,10 +25,10 @@ function HeaderBar() {
           {user?.id ? (
             <>
               <Link
-                to={user.role === "admin" ? "/admin" : "/dashboard"} // Corrected syntax
+                to={destination} // Corrected syntax
                 className="bg-white text-blue-600 font-semibold px-4 py-2 rounded shadow hover:bg-gray-200"
               >
-                Dashboard
+                {buttonText}
               </Link>
               <button
                 onClick={logout}
