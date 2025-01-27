@@ -7,7 +7,8 @@ const TokenExpiredModal = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const excludedPages = ["/login", "/register", "/"];
+  console.log("location.pathname", location.pathname);
+  const excludedPages = ["/", "/login", "/register", "/dashboard"];
 
   if (!isModalVisible) return null;
   

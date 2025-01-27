@@ -31,18 +31,24 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("token", token);
     const decoded = jwtDecode(token);
     setUser({ id: decoded.id, role: decoded.role });
+    setIsModalVisible(false);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
     navigate("/");
+    setIsModalVisible(true);
   };
 
   const handleLoginClick = () => {
     navigate("/login");
     setIsModalVisible(false);
   };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  }
 
   return (
     <AuthContext.Provider value={{ user, login, logout, isModalVisible, handleLoginClick }}>

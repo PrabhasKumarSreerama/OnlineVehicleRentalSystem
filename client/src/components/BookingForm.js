@@ -9,10 +9,10 @@ const BookingForm = ({ vehicleId }) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [curUser, setCurUser] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const token = localStorage.getItem("token");
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -51,17 +51,19 @@ const BookingForm = ({ vehicleId }) => {
 
     console.log("bookingData", bookingData, curUser);
 
-    setIsSubmitting(true); // Disable button during submission
+    setIsSubmitting(true); 
     try {
-      await createBooking(bookingData, token);
+      const bookingResponse = await createBooking(bookingData, token);
       setSuccess("Booking created successfully!");
+      console.log("bookingResponse", bookingResponse);
+      navigate(`/payment/${bookingResponse.data.bookingId}`);
       setStartDate("");
       setEndDate("");
       setError("");
     } catch (err) {
       setError("Failed to create booking. Please try again.");
     } finally {
-      setIsSubmitting(false); // Re-enable button
+      setIsSubmitting(false); 
     }
   };
 
@@ -122,7 +124,7 @@ const BookingForm = ({ vehicleId }) => {
 
         <button
           type="submit"
-          disabled={isSubmitting} // Disable button during submission
+          disabled={isSubmitting}
           className={`${
             isSubmitting ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
           } text-white rounded p-3 w-full transition duration-200`}

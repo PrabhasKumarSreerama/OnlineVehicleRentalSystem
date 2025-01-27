@@ -51,15 +51,15 @@ const UserDashboard = () => {
                     key={booking._id}
                     className="bg-white border rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200"
                   >
-                    <div className="flex flex-col md:flex-row">
-                      <div className="w-full md:w-1/3 mb-4 md:mb-0">
+                    <div className="flex flex-col">
+                      <div className="w-full mb-4 md:mb-0">
                         <img
                           src={booking.vehicle.images[0]}
                           alt={`${booking.vehicle.make} ${booking.vehicle.model}`}
                           className="w-full h-48 object-cover rounded-lg"
                         />
                       </div>
-                      <div className="w-full md:w-2/3 md:pl-4">
+                      <div className="w-full md:pl-4">
                         <p className="text-lg font-semibold text-gray-800">
                           <span className="font-bold">Vehicle: </span>
                           {booking.vehicle.make} {booking.vehicle.model}
@@ -85,10 +85,16 @@ const UserDashboard = () => {
                           Status: {booking.status}
                         </p>
                         <button
-                          onClick={() => navigate(`/review/${booking._id}`)}
-                          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
+                          onClick={() => navigate(`/addreview/${booking._id}`)}
+                          className="mt-4 ml-2 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
                         >
-                          Add / See Review
+                          Add Review
+                        </button>
+                        <button
+                          onClick={() => navigate(`/vehicles/reviews/${booking.vehicle._id}`)}
+                          className="mt-4 ml-2 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
+                        >
+                          See Other Reviews
                         </button>
                       </div>
                     </div>

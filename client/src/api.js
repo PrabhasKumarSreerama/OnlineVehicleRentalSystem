@@ -62,14 +62,57 @@ export const fetchUserBookings = async (token) => {
   });
 };
 
-export const addReview = async (reviewData, token) => {
-  return await axios.post(`${API_URL}/reviews`, reviewData, {
+export const addReview = async (bookingId, reviewData, token) => {
+  return await axios.post(`${API_URL}/reviews/${bookingId}`, reviewData, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const fetchReviewsByVehicleId = async (vehicleId) => {
-  return await axios.get(`${API_URL}/reviews/${vehicleId}`);
+  try {
+    console.log("vehicleId11", vehicleId);
+    const response = await axios.get(`${API_URL}/reviews`, {
+      params: { vehicleId },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching reviews by vehicleId:", error);
+    throw error;
+  }
+};
+
+export const fetchReviewsByUserId = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/reviews`, {
+      params: { userId },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching reviews by userId:", error);
+    throw error;
+  }
+};
+
+export const fetchReviewsByVehicleAndUser = async (vehicleId, userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/reviews`, {
+      params: { vehicleId, userId },
+    });
+    return response;
+  } catch (error) {
+    console.error("Error fetching reviews by vehicleId and userId:", error);
+    throw error;
+  }
+};
+
+export const fetchAllReviews = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/reviews`);
+    return response;
+  } catch (error) {
+    console.error("Error fetching all reviews:", error);
+    throw error;
+  }
 };
 
 export const processPayment = async (paymentData, token) => {
