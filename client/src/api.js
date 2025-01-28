@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api"; // Update with your backend URL
+const API_URL = "https://onlinevehiclerentalsystem.onrender.com/api";
 
 export const registerUser = async (userData) => {
   return await axios.post(`${API_URL}/auth/register`, userData);
