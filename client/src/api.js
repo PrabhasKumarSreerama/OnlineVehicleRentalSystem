@@ -62,6 +62,10 @@ export const fetchUserBookings = async (token) => {
   });
 };
 
+export const fetchBookingsByUserId = async (userId) => {
+  return await axios.get(`${API_URL}/bookings/${userId}`);
+};
+
 export const addReview = async (bookingId, reviewData, token) => {
   return await axios.post(`${API_URL}/reviews/${bookingId}`, reviewData, {
     headers: { Authorization: `Bearer ${token}` },
@@ -113,6 +117,12 @@ export const fetchAllReviews = async () => {
     console.error("Error fetching all reviews:", error);
     throw error;
   }
+};
+
+export const deleteReview  = async (id, token) => {
+  return await axios.delete(`${API_URL}/reviews/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
 
 export const processPayment = async (paymentData, token) => {

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const UserList = () => {
-  const { user } = useContext(AuthContext);
+  const { user, handleModalOpen } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [users, setUsers] = useState([]);
@@ -12,26 +12,32 @@ const UserList = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
 
+  // Fetch Users
   const getUsers = async () => {
     setLoading(true);
     try {
       const response = await fetchUsers(token);
-      const filteredUsers = response.data.filter((user) => user.role !== "admin");
+      const filteredUsers = response.data.filter((u) => u.role !== "admin");
       setUsers(filteredUsers);
-      setLoading(false);
     } catch (err) {
       setError("Failed to fetch users.");
+    } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDeleteUser = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
       await deleteUser(id, token);
-      setUsers(users.filter((user) => user._id !== id)); 
+      setUsers(users.filter((u) => u._id !== id));
     } catch (err) {
       console.error("Failed to delete user:", err.message);
     }
+  };
+
+  const handleUserClick = (userId) => {
+    navigate(`/user/${userId}`);
   };
 
   useEffect(() => {
@@ -65,16 +71,23 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user._id} className="border-b hover:bg-gray-100">
-                <td className="py-2 px-4 text-center">{user.name}</td>
-                <td className="py-2 px-4 text-center">{user.email}</td>
+            {users.map((u) => (
+              <tr
+                key={u._id}
+                className="border-b hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleUserClick(u._id)}
+              >
+                <td className="py-2 px-4 text-center">{u.name}</td>
+                <td className="py-2 px-4 text-center">{u.email}</td>
                 <td className="py-2 px-4 text-center">
                   <button
-                    onClick={() => handleDelete(user._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteUser(u._id);
+                    }}
                     className="px-3 py-1 bg-red-500 text-white rounded"
                   >
-                    Delete
+                    Delete User
                   </button>
                 </td>
               </tr>

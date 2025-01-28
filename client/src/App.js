@@ -15,6 +15,7 @@ import TokenExpiredModal from "./components/TokenExpiredModal ";
 import ReviewForm from "./components/ReviewForm";
 import ReviewPage from "./pages/ReviewPage";
 import PaymentPage from "./pages/PayemntPage";
+import UserDetails from "./components/UserDetails";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/addreview/:id" element={<ReviewForm />} />
           <Route path="/vehicles/reviews/:id" element={<ReviewPage />} />
           <Route path="/payment/:id" element={<PaymentPage />} />
+          <Route path="/user/:userId" element={<UserDetails />} />
         </Routes>
       </AuthProvider>
     </Router>

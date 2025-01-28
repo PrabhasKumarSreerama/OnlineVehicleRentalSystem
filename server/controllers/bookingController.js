@@ -85,3 +85,13 @@ exports.getBookings = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getBookingsByUserId = async (req, res) => {
+  try {
+    const { user } = req.params;
+    const bookings = await Booking.find({ user });
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

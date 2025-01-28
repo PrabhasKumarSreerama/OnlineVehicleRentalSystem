@@ -18,9 +18,21 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token && !isTokenExpired(token)) {
+    if (token) {
       const decoded = jwtDecode(token);
-      setUser({ id: decoded.id, role: decoded.role });
+      const expiryTime = decoded.exp * 1000;
+      const currentTime = Date.now();
+      const timeLeft = expiryTime - currentTime;
+      if(!isTokenExpired(token)){
+        setUser({ id: decoded.id, role: decoded.role });
+        setTimeout(() => {
+          localStorage.removeItem("token");
+          setIsModalVisible(true);
+        }, timeLeft);
+      } else {
+        localStorage.removeItem("token");
+        setIsModalVisible(true);
+      }
     } else {
       localStorage.removeItem("token");
       setIsModalVisible(true);
@@ -46,12 +58,16 @@ export const AuthProvider = ({ children }) => {
     setIsModalVisible(false);
   };
 
+  const handleModalOpen = () => {
+    setIsModalVisible(false);
+  }
+
   const handleModalClose = () => {
     setIsModalVisible(false);
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isModalVisible, handleLoginClick }}>
+    <AuthContext.Provider value={{ user, login, logout, isModalVisible, handleLoginClick, handleModalOpen }}>
       {children}
     </AuthContext.Provider>
   );

@@ -12,7 +12,7 @@ const AddVehicle = () => {
   const [year, setYear] = useState("");
   const [pricePerDay, setPricePerDay] = useState("");
   const [availability, setAvailability] = useState(true);
-  const [images, setImages] = useState([""]); // Array for image URLs
+  const [images, setImages] = useState([""]);
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
 
@@ -37,7 +37,6 @@ const AddVehicle = () => {
     }
   };
 
-  // Check if the user is an admin
   if (!user || user.role !== "admin") {
     return <p className="text-red-500">Access denied. Admins only.</p>;
   }
@@ -104,6 +103,9 @@ const AddVehicle = () => {
           Add Vehicle
         </button>
       </form>
+        <button onClick={() => navigate(-1)} className="bg-slate-500 text-white rounded p-2 mt-2">
+          Go Back
+        </button>
     </div>
   );
 };
