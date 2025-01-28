@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const UserList = () => {
-  const { user, handleModalOpen } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [users, setUsers] = useState([]);
@@ -12,8 +12,7 @@ const UserList = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
 
-  // Fetch Users
-  const getUsers = async () => {
+  const getUsers = async (token) => {
     setLoading(true);
     try {
       const response = await fetchUsers(token);
@@ -41,8 +40,8 @@ const UserList = () => {
   };
 
   useEffect(() => {
-    getUsers();
-  }, []);
+    getUsers(token);
+  }, [token]);
 
   if (!user || user.role !== "admin") {
     return <p className="text-red-500">Access denied. Admins only.</p>;

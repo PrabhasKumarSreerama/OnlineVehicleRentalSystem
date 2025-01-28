@@ -44,8 +44,7 @@ const Admin = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
+                <button
                   onClick={(e) => {
                     e.preventDefault();
                     setShowModal(true);
@@ -53,7 +52,7 @@ const Admin = () => {
                   className="hover:underline hover:text-blue-200 transition"
                 >
                   Logout
-                </a>
+                </button>
               </li>
             </ul>
           </nav>
