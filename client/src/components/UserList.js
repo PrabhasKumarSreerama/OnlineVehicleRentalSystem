@@ -57,6 +57,12 @@ const UserList = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <button
+        onClick={() => navigate(-1)}
+        className="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600"
+      >
+        Go Back
+      </button>
       <h2 className="text-2xl font-bold mb-4">User List</h2>
       {users.length === 0 ? (
         <p className="text-gray-500">No users found.</p>
