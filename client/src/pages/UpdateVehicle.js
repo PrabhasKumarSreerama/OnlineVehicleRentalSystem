@@ -129,6 +129,9 @@ const UpdateVehicle = () => {
           Update Vehicle Details
         </button>
       </form>
+      <button onClick={() => navigate(-1)} className="bg-slate-500 text-white rounded p-2 mt-2">
+          Go Back
+        </button>
     </div>
   );
 };
