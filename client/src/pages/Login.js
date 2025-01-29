@@ -17,9 +17,9 @@ const Login = () => {
       const response = await loginUser({ email, password });
       login(response.data.token);
       if (user?.role === "admin") {
-        navigate("/admin"); 
-      }else{
-        navigate("/"); 
+        navigate("/admin");
+      } else {
+        navigate("/");
       }
     } catch (err) {
       setError("Invalid email or password.");
@@ -74,9 +74,15 @@ const Login = () => {
         </form>
         <p className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
-          <a href="/register" className="text-blue-500 hover:underline">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/register");
+            }}
+            className="text-blue-500 hover:underline"
+          >
             Register
-          </a>
+          </button>
         </p>
       </div>
     </div>
