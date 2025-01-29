@@ -16,7 +16,7 @@ const UserDetails = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
 
-  const getUserDetails = async () => {
+  const getUserDetails = async (userId) => {
     setLoading(true);
     try {
       const [bookingRes, reviewRes] = await Promise.all([
@@ -54,7 +54,7 @@ const UserDetails = () => {
   };
 
   useEffect(() => {
-    getUserDetails();
+    getUserDetails(userId);
   }, [userId]);
 
   if (loading) {
