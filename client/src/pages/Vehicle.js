@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import { fetchVehicleById } from "../api";
 import BookingForm from "../components/BookingForm";
+import DummyCar from "../assets/images/DummyCar.jpg";
 
 const Vehicle = () => {
   const { id: vehicleId } = useParams(); // Extract 'id' from route parameters
   const [vehicle, setVehicle] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     const getVehicle = async () => {
@@ -48,7 +50,7 @@ const Vehicle = () => {
             {vehicle.make} {vehicle.model}
           </h1>
           <img
-            src={vehicle.images[0]}
+            src={vehicle.images[0] || DummyCar}
             alt={`${vehicle.make} ${vehicle.model}`}
             className="w-full h-60 object-contain rounded mb-4"
           />
@@ -57,14 +59,19 @@ const Vehicle = () => {
               <span className="font-semibold">Year:</span> {vehicle.year}
             </p>
             <p className="text-lg">
-              <span className="font-semibold">Price per day:</span> $
-              {vehicle.pricePerDay}
+              <span className="font-semibold">Price per day:</span> $ {vehicle.pricePerDay}
             </p>
             <p className="text-lg">
               <span className="font-semibold">Description:</span>{" "}
               {vehicle.description || "No description available."}
             </p>
           </div>
+          <button
+            onClick={() => navigate(`/vehicles/reviews/${vehicleId}`)}
+            className="bg-blue-500 hover:bg-blue-600 text-white rounded p-2 px-4 mt-4"
+          >
+            See Other Reviews
+          </button>
         </div>
         <div className="mt-6">
           <BookingForm vehicleId={vehicleId} />

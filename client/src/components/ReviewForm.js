@@ -8,17 +8,25 @@ const ReviewForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [curBooking, SetCurBooking] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loading state
   const token = localStorage.getItem("token");
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     const getBookings = async () => {
-      const response = await fetchUserBookings(token);
-      const userBooking = response.data.find((booking) => booking._id === id);
-      console.log("curBooking", userBooking?.vehicle?._id, response.data, id);
-      SetCurBooking(userBooking);
+      setIsLoading(true); // Start loading
+      try {
+        const response = await fetchUserBookings(token);
+        const userBooking = response.data.find((booking) => booking._id === id);
+        SetCurBooking(userBooking);
+      } catch (err) {
+        setError("Failed to fetch bookings. Please try again.");
+      } finally {
+        setIsLoading(false); // End loading
+      }
     };
+
     if (token) {
       getBookings();
     }
@@ -62,49 +70,55 @@ const ReviewForm = () => {
           Submit Your Review
         </h2>
 
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        {success && (
-          <p className="text-green-500 text-center mb-4">{success}</p>
+        {isLoading ? (
+          <p className="text-center text-blue-500 mb-4">Loading...</p> // Loading indicator
+        ) : (
+          <>
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+            {success && (
+              <p className="text-green-500 text-center mb-4">{success}</p>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Rating (1-5)
+                </label>
+                <input
+                  type="number"
+                  value={rating}
+                  onChange={(e) => setRating(e.target.value)}
+                  required
+                  min="1"
+                  max="5"
+                  className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Rate the vehicle"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Comment
+                </label>
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  required
+                  className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Leave a comment"
+                  rows="4"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="bg-blue-500 text-white rounded p-3 w-full hover:bg-blue-600 transition duration-200"
+              >
+                Submit Review
+              </button>
+            </form>
+          </>
         )}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Rating (1-5)
-            </label>
-            <input
-              type="number"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              required
-              min="1"
-              max="5"
-              className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Rate the vehicle"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Comment
-            </label>
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              required
-              className="border rounded p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Leave a comment"
-              rows="4"
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            className="bg-blue-500 text-white rounded p-3 w-full hover:bg-blue-600 transition duration-200"
-          >
-            Submit Review
-          </button>
-        </form>
       </div>
     </div>
   );

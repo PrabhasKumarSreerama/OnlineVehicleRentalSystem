@@ -3,6 +3,7 @@ import { fetchUserBookings } from "../api";
 import { AuthContext } from "../context/AuthContext";
 import HeaderBar from "./HeaderBar";
 import { useNavigate } from "react-router-dom";
+import DummyCar from "../assets/images/DummyCar.jpg";
 
 const UserDashboard = () => {
   const { user } = useContext(AuthContext);
@@ -14,7 +15,7 @@ const UserDashboard = () => {
     const getBookings = async () => {
       const response = await fetchUserBookings(token);
       const userBookings = response.data.filter(
-        (booking) => booking.user._id === user?.id
+        (booking) => booking?.user?._id === user?.id
       );
       setBookings(userBookings);
     };
@@ -54,7 +55,7 @@ const UserDashboard = () => {
                     <div className="flex flex-col">
                       <div className="w-full mb-4 md:mb-0">
                         <img
-                          src={booking.vehicle.images[0]}
+                          src={booking.vehicle.images[0] || DummyCar}
                           alt={`${booking.vehicle.make} ${booking.vehicle.model}`}
                           className="w-full h-48 object-cover rounded-lg"
                         />
