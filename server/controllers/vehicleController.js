@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Vehicle = require("../models/Vehicle");
 
 // Add a new vehicle
@@ -74,15 +75,23 @@ exports.updateVehicle = async (req, res) => {
 
 exports.deleteVehicle = async (req, res) => {
   try {
-    const vehicle = await Vehicle.findById(req.params.id);
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid vehicle ID format" });
+    }
+
+    const vehicle = await Vehicle.findById(id);
 
     if (!vehicle) {
       return res.status(404).json({ message: "Vehicle not found" });
     }
 
-    await vehicle.remove();
+    await Vehicle.deleteOne({ _id: id });
+
     res.status(200).json({ message: "Vehicle deleted successfully" });
   } catch (error) {
+    console.error("Error deleting vehicle:", error.message);
     res
       .status(500)
       .json({ message: "Failed to delete vehicle", error: error.message });
