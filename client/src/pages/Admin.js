@@ -2,14 +2,16 @@ import React, { useContext, useState } from "react";
 import AdminDashboard from "../components/AdminDashboard";
 import { AuthContext } from "../context/AuthContext";
 import ConfirmationModal from "../components/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const { logout } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); 
-    setShowModal(false); 
+    logout();
+    setShowModal(false);
   };
 
   return (
@@ -28,20 +30,26 @@ const Admin = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="/admin/users"
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/admin/users");
+                  }}
                   className="hover:underline hover:text-blue-200 transition"
                 >
                   Users
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="/admin/addvehicle"
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/admin/addvehicle");
+                  }}
                   className="hover:underline hover:text-blue-200 transition"
                 >
                   Add New Vehicle
-                </a>
+                </button>
               </li>
               <li>
                 <button
