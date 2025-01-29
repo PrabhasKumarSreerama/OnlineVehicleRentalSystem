@@ -8,23 +8,31 @@ import DummyCar from "../assets/images/DummyCar.jpg";
 const UserDashboard = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   useEffect(() => {
     const getBookings = async () => {
-      const response = await fetchUserBookings(token);
-      const userBookings = response.data.filter(
-        (booking) => booking?.user?._id === user?.id
-      );
-      setBookings(userBookings);
+      try {
+        const response = await fetchUserBookings(token);
+        const userBookings = response.data.filter(
+          (booking) => booking?.user?._id === user?.id
+        );
+        setBookings(userBookings);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      } finally {
+        setLoading(false); 
+      }
     };
+
     if (user?.role === "user") {
       getBookings();
     }
   }, [user, token]);
 
-  if (!token) {
+  if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="text-gray-700 text-lg">Loading booking records...</div>
@@ -92,7 +100,9 @@ const UserDashboard = () => {
                           Add Review
                         </button>
                         <button
-                          onClick={() => navigate(`/vehicles/reviews/${booking.vehicle._id}`)}
+                          onClick={() =>
+                            navigate(`/vehicles/reviews/${booking.vehicle._id}`)
+                          }
                           className="mt-4 ml-2 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
                         >
                           See Other Reviews
