@@ -19,8 +19,8 @@ import UserDetails from "./components/UserDetails";
 
 const App = () => {
   return (
-    <Router>
-      <AuthProvider>
+    <AuthProvider>
+      <Router>
         <TokenExpiredModal />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -37,8 +37,8 @@ const App = () => {
           <Route path="/payment/:id" element={<PaymentPage />} />
           <Route path="/user/:userId" element={<UserDetails />} />
         </Routes>
-      </AuthProvider>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 };
 
