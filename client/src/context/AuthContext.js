@@ -53,8 +53,13 @@ export const AuthProvider = ({ children }) => {
     setIsModalVisible(true);
   };
 
+  const handleLoginClick = () => {
+    navigate("/login");
+    setIsModalVisible(false);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isModalVisible}}>
+    <AuthContext.Provider value={{ user, login, logout, isModalVisible, handleLoginClick}}>
       {children}
     </AuthContext.Provider>
   );
